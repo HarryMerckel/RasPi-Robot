@@ -236,7 +236,7 @@ if choise =="manual":
 def manual()
 	input = input("lets dance")
 	if input = "help":
-		print("right, left, foward, backward, swirl, square_spiral, snake, zigzag, chaha_chaha ;)")
+		print("right, left, foward, backward, swirl, square_spiral, snake, zigzag, chaha_chaha, 1up_2back, slide_away, belly_dance, twitch, egtptian;)")
 	if input = "right"
 		right()
 	if input = "left"
@@ -255,10 +255,22 @@ def manual()
 		zigzag()
 	if input = "chaha_chaha"
 		chaha_chaha()
+	if input ="1up_2back"
+		1up_2back()
+	if input = "slide_away"
+		slide_away()
+	if input = "belly_dance"
+		belly_dance()
+	if input = "random_move"
+		random_move()
+	if input = "twitch"
+		twitch()
+	if input = "egtptian"
+	 egtptian()
 	
 
 def random():
-	randnum = random.ranrange(1, 14)
+	randnum = random.ranrange(1, 15)
 
 	if randnum = 1:
 		right()
@@ -288,6 +300,8 @@ def random():
 		twitch()
 	if randnum = 14:
 		random_move()
+	if randnum = 15:
+		egtptian()
 		
 		
 def 1up_2back():
@@ -385,6 +399,35 @@ def random_move():
 			right()
 		count += 1
 	
+def egtptian
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,-100)
+	time.sleep(3)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,-100)
+	time.sleep(3)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
+	motor(100,100)
+	time.sleep(0.1)
 	motor (0, 0)
 
 GPIO.cleanup()
