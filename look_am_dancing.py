@@ -81,7 +81,7 @@ def motor (l, r):
         
 motor (0, 0)
 
-def zigzag():
+def chaha_chaha():
     motor(50, 50)
 	time.sleep(0.5)
 	motor(-50, 50)
@@ -102,6 +102,29 @@ def zigzag():
 	time.sleep(0.5)
 	motor(-50, -50)
 	time.sleep(0.5)
+	
+def zigzag():
+    motor(100, 100)
+	time.sleep(0.5)
+	motor(-100, 100)
+	time.sleep(0.5)
+	motor(-100, -100)
+	time.sleep(0.5)
+	motor(100, -100)
+	time.sleep(0.5)
+	motor(100, 100)
+	time.sleep(0.5)
+	motor(-100, 100)
+	time.sleep(0.5)
+	motor(-100, -100)
+	time.sleep(0.5)
+	motor(-100, 100)
+	time.sleep(0.5)
+	motor(100, 100)
+	time.sleep(0.5)
+	motor(100, -100)
+	time.sleep(0.5)
+	motor(-100, -100)
 	
 def snake():
     motor(100, 100)
@@ -159,7 +182,102 @@ def snake():
 	motor(100, 80)
 	time.sleep(0.5)
 	motor(100, 100)
+	
+
 			
-motor (0, 0)
+def square_spiral():
+	count = 2
+	while count != 0.5:
+		motor(75,75)
+		time.sleep(count)
+		motor(75,100)
+		time.sleep(1)
+		motor(75,75)
+		time.sleep(count)
+		motor(75,100)
+		time.sleep(1)
+		motor(75,75)
+		time.sleep(count)
+		motor(75,100)
+		time.sleep(1)
+		motor(75,75)
+		time.sleep(count)
+		motor(75,100)
+		count -= 0.5
+		
+def swirl():
+	count = 100
+	while count != 100:
+		motor(count,20)
+		time.sleep(1)
+		count += 10		
+			
+			
+def forward():
+	motor(100, 100)
+	
+def backwards():
+	motor(-100, -100)
+	
+def left():
+	motor(-100, 100)
+	
+def right():
+	motor(100, -100)
+	
+while running == True:
+
+choise = input("manual/random input")
+if choise == "random":
+	random()
+if choise =="manual":
+	manual()
+	
+def manual()
+	input = input("lets dance")
+	if input = "help":
+		print("right, left, foward, backward, swirl, square_spiral, snake, zigzag, chaha_chaha ;)")
+	if input = "right"
+		right()
+	if input = "left"
+		left()
+	if input = "forward"
+		forward()
+	if input = "backward"
+		backward()
+	if input = "swirl"
+		swirl()
+	if input = "square_spiral"
+		square_spiral()
+	if input = "snake"
+		snake()
+	if input = "zigzag"
+		zigzag()
+	if input = "chaha_chaha"
+		chaha_chaha()
+	
+
+def random():
+	randnum = random.ranrange(1, 9)
+
+	if randnum = 1:
+		right()
+	if randnum = 2:
+		left()
+	if randnum = 3:
+		backwards()
+	if randnum = 4:
+		forward()
+	if randnum = 5:
+		swirl()
+	if randnum = 6:
+		square_spiral()
+	if randnum = 7:
+		chaha_chaha()
+	if randnum = 8:
+		snake()
+	if randnum = 9:
+		zigzag()
+	motor (0, 0)
 
 GPIO.cleanup()
