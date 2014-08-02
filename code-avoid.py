@@ -15,10 +15,10 @@ GPIO.setup(24, GPIO.OUT)
 GPIO.setup(26, GPIO.OUT)
 GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-m1f = GPIO.PWM(21, 2000)
-m2f = GPIO.PWM(26, 2000)
-m1b = GPIO.PWM(19, 2000)
-m2b = GPIO.PWM(24, 2000)
+m1f = GPIO.PWM(21, 20)
+m2f = GPIO.PWM(26, 20)
+m1b = GPIO.PWM(19, 20)
+m2b = GPIO.PWM(24, 20)
 
 m1b.start(0)
 m2b.start(0)
@@ -80,13 +80,11 @@ def motor (l, r):
 
 def check():
     distance = query()
-    print distance
-    if distance < 30:
-        motor(-100, -100)
-        time.sleep(0.5)
+#    print distance
+    while distance < 30:
         motor(100, -100)
-        time.sleep(3)
-        motor(100, 100)
+        time.sleep(0.1)
+        distance = query()
 
 motor (0, 0)
 
