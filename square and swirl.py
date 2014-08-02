@@ -466,9 +466,9 @@ def dance_moves_random():
 			m2f.ChangeDutyCycle(100)
 			m1f.start(1.5)
 			m2f.start(1.5)
-
-count = 2			
+			
 def square_spiral():
+	count = 2
 	while count != 0.5:
 		motor(75,75)
 		time.sleep(count)
