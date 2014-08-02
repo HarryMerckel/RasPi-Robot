@@ -494,7 +494,22 @@ def swirl():
 		time.sleep(1)
 		count += 10	
 			
-		
+def random_move():
+	count = 0
+	while count != 20:
+		randnum = random.randrange(1,4)
+		if randnum = 1:
+			forward()
+			
+		if randnum = 2:
+			backward()
+			
+		if randnum = 3:
+			left()
+			
+		if randnum = 4:
+			right()
+		count += 1
 			
 			
 		
