@@ -77,56 +77,23 @@ def motor (l, r):
     else:
         m2f.ChangeDutyCycle(0)
         m2b.ChangeDutyCycle(-r)
-        
+
+def check():
+    distance = query()
+    print distance
+    if distance < 30:
+        motor(-100, -100)
+        time.sleep(0.5)
+        motor(100, -100)
+        time.sleep(3)
+        motor(100, 100)
+
 motor (0, 0)
 
-def zigzag():
+while True:
     motor(100, 100)
-    time.sleep(0.5)
-    motor(-100, 100)
-    time.sleep(0.5)
-    motor(-100, -100)
-    time.sleep(0.5)
-    motor(100, -100)
-    time.sleep(0.5)
-    motor(100, 100)
-    time.sleep(0.5)
-    motor(-100, 100)
-    time.sleep(0.5)
-    motor(-100, -100)
-    time.sleep(0.5)
-    motor(-100, 100)
-    time.sleep(0.5)
-    motor(100, 100)
-    time.sleep(0.5)
-    motor(-100, -100)
-    time.sleep(0.5)
-    
-def snake():
-    while count != 6:
-        motor(100, 100)
-        time.sleep(0.5)
-        motor(80, 100)
-        time.sleep(0.5)
-        motor(60, 100)
-        time.sleep(0.5)
-        motor(80, 80)
-        time.sleep(0.5)
-        motor(100,60)
-        time.sleep(0.5)
-        motor(80, 80)
-        time.sleep(0.5)
-        motor(80, 100)
-        time.sleep(0.5)
-        motor(60, 100)
-        time.sleep(0.5)
-        motor(80, 80)
-        time.sleep(0.5)
-        motor(100,60)
-        time.sleep(0.5)
-        motor(80, 80)
-
-zigzag()
+    check()
+    time.sleep(0.1)
 
 motor (0, 0)
 

@@ -124,7 +124,7 @@ def PWMforwards():
     m1f.start(0)
     m2f.start(0)
     dMedian()
-    checkSwitch()
+#    checkSwitch()
     if dMed > 50:
         for dcf in range(0, 101, 10):
             m1f.ChangeDutyCycle(dcf)
@@ -173,42 +173,15 @@ def PWMturnright():
     time.sleep(1)
     checkSwitch()
     for dcf in range(100, -1, -10):
+        print str(dcf)
         m1f.ChangeDutyCycle(dcf)
         m2b.ChangeDutyCycle(dcf)
         time.sleep(0.1)
     m1f.stop()
     m2b.stop()
+    return
     checkSwitch()
-    PWMforwards()
-
-def startRight():
-    m1f.start(0)
-    m2b.start(0)
-    checkSwitch()
-    for dcf in range(0, 51, 2):
-        m1f.ChangeDutyCycle(dcf)
-        m2b.ChangeDutyCycle(dcf)
-        time.sleep(0.1)
-    checkSwitch()
-    time.sleep(1)
-    for dcf in range(50, -1, -2):
-        m1f.ChangeDutyCycle(dcf)
-        m2b.ChangeDutyCycle(dcf)
-        time.sleep(0.1)
-    m1f.stop()
-    m2b.stop()
-    checkSwitch()
-    PWMforwards()
-
-def timer():
-    time1 = time.time()
-    global time2
-    time2 = time.time()
-    while int(time2-time1)<5:
-        print str(time2-time1)
-        PWMforwards()
-    else:
-        PWMforwardsTurn()
+    #PWMforwards()
 
 def PWMforwardsTurn():
     checkSwitch()
@@ -222,35 +195,18 @@ def PWMforwardsTurn():
         time.sleep(0.1)
     PWMcheck()
 
-def stopAll():
-    m1f.stop()
-    m1b.stop()
-    m2f.stop()
-    m2b.stop()
-    GPIO.cleanup()
-    sys.exit()
-
 def start():
     while True:
-        input_state = GPIO.input(7)
-        if input_state == False:
-            print "Starting \"PWMforwards()\""
+        print "start"
+        active = not GPIO.input(7)
+        if active:
             PWMforwards()
         else:
             time.sleep(2)
                 
 def checkSwitch():
-    input_state = GPIO.input(7)
-    while input_state == False:
-        return
-    else:
-        m1f.stop()
-        m1b.stop()
-        m2f.stop()
-        m2b.stop()
-        start()
-        return
-
+    return
+        
 start()
 
 print "Something went wrong!"
