@@ -258,7 +258,7 @@ def manual()
 	
 
 def random():
-	randnum = random.ranrange(1, 9)
+	randnum = random.ranrange(1, 14)
 
 	if randnum = 1:
 		right()
@@ -278,6 +278,113 @@ def random():
 		snake()
 	if randnum = 9:
 		zigzag()
+	if randum = 10:
+		1up_2back()
+	if randnum = 11:
+		slide_away()
+	if randnum = 12:
+		belly_dance()
+	if randnum = 13:
+		twitch()
+	if randnum = 14:
+		random_move()
+		
+		
+def 1up_2back():
+	motor(100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	
+def slide_away()
+	motor(100, -50)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, 100)
+	time.sleep(0.1)
+	motor(-100, -100)
+	time.sleep(0.1)
+	motor(-100, 100)
+	time.sleep(0.1)
+	
+	
+def belly_dance():
+	randnum = random.ranrange(1,2)
+	if randnum = 1:
+		motor(100,0)
+	if randnum = 2:
+		motor(0,100)
+
+def twitch():
+	motor(100,-100)
+	motor(-100,100)
+	time.sleep(0.25)
+	motor(100,-100)
+	motor(-100,100)
+	time.sleep(0.25)
+	motor(-100,100)
+	motor(100,-100)
+	time.sleep(0.25)
+	motor(-100,100)
+	morot(100,-100)
+	time.sleep(0.25)
+	
+def random_move():
+	count = 0
+	while count != 20:
+		randnum = random.randrange(1,4)
+		if randnum = 1:
+			forward()
+			
+		if randnum = 2:
+			backward()
+			
+		if randnum = 3:
+			left()
+			
+		if randnum = 4:
+			right()
+		count += 1
+	
 	motor (0, 0)
 
 GPIO.cleanup()
