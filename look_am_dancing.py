@@ -154,6 +154,8 @@ def snake():
     time.sleep(1)
     motor(50, 50)
     time.sleep(0.5)
+    motor(-100, -100)
+    time.sleep(2)
     motor(0, 0)
     
 
@@ -201,35 +203,25 @@ def right():
         
 def oneUpTwoBack():
     motor(100, 100)
-    time.sleep(0.1)
+    time.sleep(0.2)
     motor(-100, -100)
-    time.sleep(0.1)
-    motor(-100, -100)
-    time.sleep(0.1)
+    time.sleep(0.4)
     motor(100, 100)
-    time.sleep(0.1)
+    time.sleep(0.2)
     motor(-100, -100)
-    time.sleep(0.1)
-    motor(-100, -100)
-    time.sleep(0.1)
+    time.sleep(0.4)
     motor(100, 100)
-    time.sleep(0.1)
+    time.sleep(0.2)
     motor(-100, -100)
-    time.sleep(0.1)
-    motor(-100, -100)
-    time.sleep(0.1)
+    time.sleep(0.4)
     motor(100, 100)
-    time.sleep(0.1)
+    time.sleep(0.2)
     motor(-100, -100)
-    time.sleep(0.1)
-    motor(-100, -100)
-    time.sleep(0.1)
+    time.sleep(0.4)
     motor(100, 100)
-    time.sleep(0.1)
+    time.sleep(0.2)
     motor(-100, -100)
-    time.sleep(0.1)
-    motor(-100, -100)
-    time.sleep(0.1)
+    time.sleep(0.4)
     
 def slide_away():
     motor(100, -50)
@@ -259,21 +251,27 @@ def slide_away():
 def belly_dance():
     randnum = random.randint(1,2)
     if randnum == 1:
-        motor(100,0)
+        motor(100, -100)
+        time.sleep(6)
     if randnum == 2:
-        motor(0,100)
+        motor(-100, 100)
+        time.sleep(6)
 
 def twitch():
     motor(100,-100)
+    time.sleep(0.25)
     motor(-100,100)
     time.sleep(0.25)
     motor(100,-100)
+    time.sleep(0.25)
     motor(-100,100)
     time.sleep(0.25)
     motor(-100,100)
+    time.sleep(0.25)
     motor(100,-100)
     time.sleep(0.25)
     motor(-100,100)
+    time.sleep(0.25)
     motor(100,-100)
     time.sleep(0.25)
     
@@ -283,13 +281,13 @@ def random_move():
         randnum = random.randint(1,4)
         if randnum == 1:
             forward()
-            
+            time.sleep(1)
         if randnum == 2:
             backwards()
-            
+            time.sleep(1)
         if randnum == 3:
             left()
-            
+            time.sleep(1)
         if randnum == 4:
             right()
         count += 1
@@ -304,15 +302,7 @@ def egtptian():
     motor(100,-100)
     time.sleep(3)
     motor(100,100)
-    time.sleep(0.1)
-    motor(100,100)
-    time.sleep(0.1)
-    motor(100,100)
-    time.sleep(0.1)
-    motor(100,100)
-    time.sleep(0.1)
-    motor(100,100)
-    time.sleep(0.1)
+    time.sleep(0.5)
     motor(100,100)
     time.sleep(0.1)
     motor(100,-100)
@@ -362,7 +352,7 @@ def randum():
 
 while True:    
     randum()
-    time.sleep(1)
+    #time.sleep(1)
     
 #snake()
 

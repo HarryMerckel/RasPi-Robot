@@ -77,18 +77,49 @@ def motor (l, r):
     else:
         m2f.ChangeDutyCycle(0)
         m2b.ChangeDutyCycle(-r)
-
+        
 def check():
+    global turns
     distance = query()
 #    print distance
-    while distance < 30:
-        motor(100, -100)
-        time.sleep(0.1)
-        distance = query()
-
+    if distance < 30:
+        randnum = random.randint(1, 10)
+        if randnum <= 3:
+            motor(-100, -100)
+            time.sleep(1)
+            motor(-100, 100)
+            time.sleep(1.5)
+            checkSwitch()
+        else:
+            motor(-100, -100)
+            time.sleep(1)
+            motor(100, -100)
+            time.sleep(1.0 + random.random())
+            checkSwitch()
+            
+def checkSwitch():
+    active = not GPIO.input(7)
+    if active:
+        return
+    else:
+        motor(0, 0)
+        start()
+            
+def start():
+    while True:
+        print "start"
+        active = not GPIO.input(7)
+        if active:
+            return
+        else:
+            time.sleep(2)
+            
 motor (0, 0)
 
+start()
+
 while True:
+    checkSwitch()
     motor(100, 100)
     check()
     time.sleep(0.1)
