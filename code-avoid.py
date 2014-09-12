@@ -6,6 +6,7 @@ import numpy
 import random
 import sys
 from time import sleep
+from threading import Thread
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)
@@ -15,10 +16,10 @@ GPIO.setup(24, GPIO.OUT)
 GPIO.setup(26, GPIO.OUT)
 GPIO.setup(7, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-m1f = GPIO.PWM(21, 20)
-m2f = GPIO.PWM(26, 20)
-m1b = GPIO.PWM(19, 20)
-m2b = GPIO.PWM(24, 20)
+m1f = GPIO.PWM(21, 50)
+m2f = GPIO.PWM(26, 50)
+m1b = GPIO.PWM(19, 50)
+m2b = GPIO.PWM(24, 50)
 
 m1b.start(0)
 m2b.start(0)
@@ -28,41 +29,53 @@ m2f.start(0)
 pin = 8
 
 def query():
-    GPIO.setup(pin, GPIO.OUT)
-    ti = time.time()
-       
-    distlist = [0.0] * 5
-    ts=time.time()
-        
-    for k in range(5):
-        GPIO.output(pin, 1)
-        time.sleep(0.00001)
-        GPIO.output(pin, 0)
-        t0=time.time()
-        GPIO.setup(pin, GPIO.IN)
-           
-        t1=t0
-        while ((GPIO.input(pin)==0) and ((t1-t0) < 0.02)):
-            t1=time.time()
-
-        t1=time.time()
-        t2=t1
-
-        while ((GPIO.input(pin)==1) and ((t2-t1) < 0.02)):
-            t2=time.time()
-        t2=time.time()
-
-        t3=(t2-t1)
-
-        distance=t3*343/2*100
-        distlist[k]=distance
-
+    while True:
         GPIO.setup(pin, GPIO.OUT)
-        tf = time.time() - ts
+        ti = time.time()
+        global distance
+        distlist = [0.0] * 10
 
-        distance = sorted(distlist)[2]
-                
-    return distance
+        # This takes 5 very quick readings from the ultrasonic sensor. Takes the median of 5 results to get rid of anomalous results.
+        while True:
+            # Output a very short pulse as a ping to the sensor, then switches to input waiting for a response
+            GPIO.output(pin, 1)
+            time.sleep(0.00001)
+            GPIO.output(pin, 0)
+            time0 = time.time()
+            GPIO.setup(pin, GPIO.IN)
+
+            # Waiting for return to start
+            time1=time0
+            while ((GPIO.input(pin) == 0) and ((time1 - time0) < 0.02)):
+                time1 = time.time()
+
+            time1 = time.time()
+            time2 = time1
+
+            # Timing and waiting for return to finish
+            while ((GPIO.input(pin) == 1) and ((time2 - time1) < 0.02)):
+                time2 = time.time()
+            time2 = time.time()
+
+            time3 = (time2-time1)
+
+            # Calculation of distance -> return time * speed of sound (m/s) / 2 (ping has to go to and from object) * 100 (m to cm)
+            cDistance = time3*343/2*100
+
+            GPIO.setup(pin, GPIO.OUT)
+            # Removing the oldest datapoint in the list and adding the new one for an accurate reading as possible
+            del distlist[0]
+            distlist.append(cDistance)
+            # Taking the mean of the 10 rolling results
+            distance = numpy.mean(distlist)
+            # Used in testing to check the readings
+            #print distance
+            time.sleep(0.02)
+
+# Starting the query function as a thread means it causes no delay on the rest of the program wile still giving constant results.
+t = Thread(target=query)
+t.setDaemon(True)
+t.start()
     
 def motor (l, r):
     if l > 0:
@@ -110,11 +123,14 @@ def start():
         print "start"
         active = not GPIO.input(7)
         if active:
+            for speed in range (0, 100, 3):
+                motor(speed, speed)
+                time.sleep(0.1)
             return
         else:
             time.sleep(2)
             
-motor (0, 0)
+motor(0, 0)
 
 start()
 
