@@ -4,6 +4,7 @@
 
 import RPi.GPIO as GPIO
 import time
+from threading import Thread
 
 # Setting up the GPIO pins for the motors and override switch
 GPIO.setwarnings(False)
@@ -16,6 +17,13 @@ GPIO.setup(11, GPIO.IN) #
 GPIO.setup(12, GPIO.IN) #
 GPIO.setup(13, GPIO.IN) # 
 GPIO.setup(7, GPIO.IN) # Override switch
+
+global l
+global c
+global r
+global nothing
+nothing = 100
+print nothing
 
 # Setting up PWM for speed control and starting motors at 0 so no output.
 m1f = GPIO.PWM(21, 50)
@@ -43,34 +51,49 @@ def motor (l, r):
         m2f.ChangeDutyCycle(0)
         m2b.ChangeDutyCycle(-r)
         
+def lineCheck():
+    while True:
+        global l
+        global c
+        global r
+        l = GPIO.input(11)
+        c = GPIO.input(12)
+        r = GPIO.input(13)
+        time.sleep(0.001)
+        
 def checkLine():
+    global nothing
+    global l
+    global c
+    global r
     # This checks the line following sensor and acts accordingly.
-    l = GPIO.input(11)
-    c = GPIO.input(12)
-    r = GPIO.input(13)
-    if not l and c and not r: return
-    if l and c and not r:
+    if not l and c and not r:
         motor(100,100)
+        nothing = 100
+        return
+    if l and c and not r:
+        motor(10,100)
         return
     if l and not c and not r:
-        motor(-50,100)
+        motor(0,75)
         return
     if not l and c and r:
-        motor(100,0)
+        motor(100,10)
         return
     if not l and not c and r:
-        motor(100,-50)
+        motor(75,0)
         return
     if not l and not c and not r:
         motor(100,100)
+        nothing = 50
         return
     if l and c and r:
-        motor(100,100)
+        motor(0,0)
         return
             
 # Checks if a connection is not made on pin 7 (switch) as an emergency stop and restarts program.
 def checkSwitch():
-    active = not GPIO.input(7)
+    active = GPIO.input(7)
     if active:
         return
     else:
@@ -81,13 +104,18 @@ def checkSwitch():
 def start():
     while True:
         print "start"
-        active = not GPIO.input(7)
+        active = GPIO.input(7)
+        #active = True
         if active:
             return
         else:
-            time.sleep(2)
+            time.sleep(0.5)
             
 motor(0, 0)
+
+t = Thread(target=lineCheck)
+t.setDaemon(True)
+t.start()
 
 start()
 
@@ -95,7 +123,7 @@ start()
 while True:
     checkSwitch()
     checkLine()
-    time.sleep(0.1)
+    time.sleep(0.01)
 
 motor (0, 0)
 
