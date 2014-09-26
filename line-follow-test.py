@@ -4,6 +4,7 @@
 
 import RPi.GPIO as GPIO
 import time
+import numpy
 from threading import Thread
 
 # Setting up the GPIO pins for the motors and override switch
@@ -51,6 +52,49 @@ def motor (left, right):
         m2f.ChangeDutyCycle(0)
         m2b.ChangeDutyCycle(-right)
         
+def query():
+    pin = 8
+    GPIO.setup(pin, GPIO.OUT)
+    global distance
+    distlist = [0.0] * 6
+
+    # This takes very quick readings from the ultrasonic sensor. Takes the rolling mean of 6 results to get rid of anomalous results.
+    while True:
+        # Output a very short pulse as a ping to the sensor, then switches to input waiting for a response
+        GPIO.output(pin, 1)
+        time.sleep(0.00001)
+        GPIO.output(pin, 0)
+        time0 = time.time()
+        GPIO.setup(pin, GPIO.IN)
+
+        # Waiting for return to start
+        time1=time0
+        while ((GPIO.input(pin) == 0) and ((time1 - time0) < 0.02)):
+            time1 = time.time()
+
+        time1 = time.time()
+        time2 = time1
+
+        # Timing and waiting for return to finish
+        while ((GPIO.input(pin) == 1) and ((time2 - time1) < 0.02)):
+            time2 = time.time()
+        time2 = time.time()
+
+        time3 = (time2-time1)
+
+        # Calculation of distance -> return time * speed of sound (m/s) (approx. at 20 degrees C) / 2 (ping has to go to and from object) * 100 (m to cm)
+        cDistance = time3*343/2*100
+
+        GPIO.setup(pin, GPIO.OUT)
+        # Removing the oldest datapoint in the list and adding the new one for an accurate reading as possible
+        del distlist[0]
+        distlist.append(cDistance)
+        # Taking the mean of the 10 rolling results
+        distance = numpy.mean(distlist)
+        # Used in testing to check the readings
+        #print distance
+        time.sleep(0.02)
+        
 def lineCheck():
     while True:
         global l
@@ -62,7 +106,11 @@ def lineCheck():
         time.sleep(0.0025)
         
 def checkLine():
-    global nothing
+    global distance
+    # Checks if the distance detected by the ultrasonic sensor is less than 10
+    if distance < 10:
+        motor(0,0)
+        return
     global l
     global c
     global r
@@ -116,6 +164,11 @@ motor(0, 0)
 t = Thread(target=lineCheck)
 t.setDaemon(True)
 t.start()
+t = Thread(target=query)
+t.setDaemon(True)
+t.start()
+
+time.sleep(3)
 
 start()
 
